@@ -12,9 +12,11 @@ export default function MostRecentAction(props: MostRecentActionProps) {
         return null;
     }
 
+    const mostRecentAction = completedActions[0];
+
     return (
         <Pressable {...props}>
-            <Text>{completedActions[0]?.name}</Text>
+            <Text>{mostRecentAction.name}</Text>
         </Pressable>
     );
 }

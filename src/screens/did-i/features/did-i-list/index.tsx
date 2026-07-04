@@ -1,4 +1,4 @@
-import { Pressable, Text } from "react-native";
+import ActionItem from "../../../../shared/components/action-item";
 import { Action } from "../../../../types/actions";
 
 export interface DidIListProps {
@@ -8,11 +8,10 @@ export interface DidIListProps {
 
 export default function DidIList({ actions, onPressAction }: DidIListProps) {
     return actions.map((action, index) => (
-        <Pressable
-            onPress={() => onPressAction?.(action.id)}
+        <ActionItem
+            {...action}
             key={`action-${index}`}
-        >
-            <Text>{action.name}</Text>
-        </Pressable >
+            onPress={() => onPressAction?.(action.id)}
+        />
     ));
 }
