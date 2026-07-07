@@ -15,7 +15,15 @@ interface ActionsStore {
 export const useActionsStore = create<ActionsStore>()(
     persist(
         immer((set) => ({
-            actions: [],
+            actions: [{
+                title: "Close the door",
+                color: "#FF0000",
+                id: "1",
+            }, {
+                title: "Gas is off",
+                color: "#FFFF00",
+                id: "2",
+            }],
             completedActions: [],
             addCompletedAction: (actionId: string) =>
                 set((state: ActionsStore) => {
@@ -41,7 +49,7 @@ export const useActionsStore = create<ActionsStore>()(
                 }),
         })),
         {
-            name: 'actions-store',
+            name: 'actions-storeeee',
             storage: createJSONStorage(() => persistentStorage),
             partialize: (state) => ({
                 actions: state.actions,

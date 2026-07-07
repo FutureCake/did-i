@@ -15,9 +15,11 @@ export default function ActionItem({ title, color, id, style, ...props }: Action
     })
 
     return (
-        <Pressable {...props} style={[styles.container, style]}>
-            <View style={[styles.marker, { backgroundColor: color }]} />
-            <Text style={styles.title}>{title}</Text>
-        </Pressable>
+        <View style={[styles.shadowContainer, style]}>
+            <Pressable {...props} style={styles.container}>
+                <View style={[styles.marker, { backgroundColor: color }]} />
+                <Text style={styles.title}>{title}</Text>
+            </Pressable>
+        </View>
     );
 }
