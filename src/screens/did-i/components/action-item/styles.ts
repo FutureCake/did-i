@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { TokenDefintions, UITheme } from "../../../types/styles";
+import { TokenDefintions, UITheme } from "../../../../types/styles";
 
 export interface ActionItemTokens {
     backgroundColor: string;
@@ -32,31 +32,24 @@ export function resolveActionItemTokens(params: {
 
 export function buildActionItemStyles(tokens: ActionItemTokens) {
     return StyleSheet.create({
-        shadowContainer: {
-            borderRadius: 8,
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.22,
-            shadowRadius: 4,
-            elevation: 6,
-        },
         container: {
             backgroundColor: tokens.backgroundColor,
-            paddingVertical: 8,
-            paddingRight: 16,
-            paddingLeft: 8,
-            overflow: "hidden",
+            height: 68,
             flexDirection: "row",
-            borderRadius: 8,
+            justifyContent: "flex-start",
+            alignItems: "center",
+            gap: 15,
+            paddingLeft: 20,
+            borderRadius: 34
         },
         marker: {
-            alignSelf: "stretch",
-            width: 8,
-            borderRadius: 4,
-            marginRight: 12,
+            width: 28,
+            aspectRatio: 1,
+            borderRadius: 14,
         },
         title: {
-            fontSize: 32
+            fontSize: 34,
+            fontWeight: "bold"
         },
     });
 }

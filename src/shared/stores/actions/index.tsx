@@ -49,7 +49,7 @@ export const useActionsStore = create<ActionsStore>()(
                 }),
         })),
         {
-            name: 'actions-storeeee',
+            name: 'actions-storeeeee',
             storage: createJSONStorage(() => persistentStorage),
             partialize: (state) => ({
                 actions: state.actions,

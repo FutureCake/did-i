@@ -3,8 +3,8 @@ import { Text, TextInput } from "react-native";
 import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ColorPicker, { ColorFormatsObject, HueSlider, Panel1 } from "reanimated-color-picker";
-import ActionItem from "../../shared/components/action-item";
 import { randomHexColor } from "../../shared/logic/colors";
+import ActionItem from "../did-i/components/action-item";
 
 export default function NewAction() {
 
