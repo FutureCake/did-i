@@ -1,8 +1,7 @@
-import { Text } from "react-native";
 import BottomSheet from "../../shared/components/bottom-sheet";
 import ScreenLayout from "../../shared/components/screen-layout";
-import { formatISODate } from "../../shared/logic/time";
 import { useActionsStore } from "../../shared/stores/actions";
+import CompletedAction from "./components/completed-action";
 
 export function IDid() {
     const { completedActions } = useActionsStore();
@@ -10,7 +9,13 @@ export function IDid() {
     return (
         <ScreenLayout header="I Did" headerSticky footer={<BottomSheet />}>
             {reversedCompletedActions.map((action, idx) => (
-                <Text key={`completed-action-${action.id}-${idx}`}>{`${formatISODate(action.completedAt)} I did ${action.title}`}</Text>
+                <CompletedAction
+                    key={`completed-action-${action.id}-${idx}`}
+                    title={action.title}
+                    color={action.color}
+                    completedAt={action.completedAt}
+                    id={action.id}
+                />
             ))}
         </ScreenLayout>
     );

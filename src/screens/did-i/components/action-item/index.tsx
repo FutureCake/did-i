@@ -18,7 +18,7 @@ import { buildActionItemStyles, resolveActionItemTokens } from "./styles";
 
 export interface ActionItemProps extends Action {
     style?: StyleProp<ViewStyle>;
-    onPress?: () => void;
+    onComplete?: () => void;
     onEdit?: () => void;
     onDelete?: () => void;
 }
@@ -28,7 +28,7 @@ const BUTTON_WIDTH = 60;
 const LEFT_BUTTONS_WIDTH = BUTTON_WIDTH * 2;
 const BORDER_RADIUS = 34;
 
-export default function ActionItem({ title, color, id, style, onPress, onEdit, onDelete }: ActionItemProps) {
+export default function ActionItem({ title, color, id, style, onComplete, onEdit, onDelete }: ActionItemProps) {
 
     const { styles } = useTokenStyles({
         resolver: resolveActionItemTokens,
@@ -41,8 +41,7 @@ export default function ActionItem({ title, color, id, style, onPress, onEdit, o
     const buttonsOpen = useSharedValue(false);
 
     const handleComplete = () => {
-        console.log("completed");
-        onPress?.();
+        onComplete?.();
     };
 
     const handleCancelCircle = () => {

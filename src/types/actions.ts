@@ -1,10 +1,10 @@
 
-export interface Action {
+export interface ActionData {
     id: string;
     title: string;
     color: string;
 }
 
-export type CompletedAction = Action & {
+export type CompletedActionData = ActionData & {
     completedAt: string;
 };

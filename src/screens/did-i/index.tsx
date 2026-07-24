@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import BottomSheet from "../../shared/components/bottom-sheet";
+import Button from "../../shared/components/button";
 import ScreenLayout from "../../shared/components/screen-layout";
 import { useActionsStore } from "../../shared/stores/actions";
 import ActionItem from "./components/action-item";
@@ -14,9 +15,9 @@ export function DidI() {
             header="Did I?"
             headerSticky
             footer={
-                <>
-                    <BottomSheet onAddAction={() => navigate("new-action")} />
-                </>
+                <BottomSheet onAddAction={() => navigate("new-action")} >
+                    <Button title="History" onPress={() => navigate("i-did")} />
+                </BottomSheet>
             }
         >
             {
@@ -24,7 +25,9 @@ export function DidI() {
                     <ActionItem
                         {...action}
                         key={`action-${index}`}
-                        onPress={() => addCompletedAction(action.id)}
+                        onComplete={() => addCompletedAction(action.id)}
+                        onDelete={() => { }}
+                        onEdit={() => { }}
                     />
                 ))
             }

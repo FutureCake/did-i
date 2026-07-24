@@ -50,3 +50,13 @@ export function formatISODate(ISOString: string): string {
 
     return `${dayDiff} ${dayLabel} ago`;
 }
+
+export function formatDateTime(ISOString: string): string {
+    const d = new Date(ISOString);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    return `On ${day}/${month}/${year} at ${hours}:${minutes}`;
+}

@@ -2,13 +2,13 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import persistentStorage from '../../../libraries/persistent-storage';
-import { Action, CompletedAction } from '../../../types/actions';
+import { ActionData, CompletedActionData } from '../../../types/actions';
 
 interface ActionsStore {
-    actions: Action[];
-    completedActions: CompletedAction[];
+    actions: ActionData[];
+    completedActions: CompletedActionData[];
     addCompletedAction: (actionId: string) => void;
-    addActionType: (action: Action) => void;
+    addActionType: (action: ActionData) => void;
     removeActionType: (actionId: string) => void;
 }
 
