@@ -7,6 +7,7 @@ import { ActionData, CompletedActionData } from '../../../types/actions';
 interface ActionsStore {
     actions: ActionData[];
     completedActions: CompletedActionData[];
+    getAction: (actionId: string) => ActionData | null;
     addCompletedAction: (actionId: string) => void;
     addAction: (action: ActionData) => void;
     removeAction: (actionId: string) => void;
@@ -14,17 +15,19 @@ interface ActionsStore {
 
 export const useActionsStore = create<ActionsStore>()(
     persist(
-        immer((set) => ({
+        immer((set, get) => ({
             actions: [{
                 title: "Close the door",
                 color: "#FF0000",
                 id: "1",
             }, {
-                title: "Gas is off",
+                title: "Turn the gas off",
                 color: "#FFFF00",
                 id: "2",
             }],
             completedActions: [],
+            getAction: (actionId: string) =>
+                get().actions.find((action) => action.id === actionId) ?? null,
             addCompletedAction: (actionId: string) =>
                 set((state: ActionsStore) => {
 
@@ -49,7 +52,7 @@ export const useActionsStore = create<ActionsStore>()(
                 }),
         })),
         {
-            name: 'actions-storeeeee',
+            name: 'actions-storeeeeee',
             storage: createJSONStorage(() => persistentStorage),
             partialize: (state) => ({
                 actions: state.actions,

@@ -1,21 +1,57 @@
 import { StackActions, useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import { TextInput } from "react-native";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useEffect, useState } from "react";
+import { Text, TextInput } from "react-native";
 import ColorPicker, { ColorFormatsObject, HueSlider, Panel1 } from "reanimated-color-picker";
 import BottomSheet from "../../shared/components/bottom-sheet";
 import Button from "../../shared/components/button";
 import FloatingSheet from "../../shared/components/floating-sheet";
 import ScreenLayout from "../../shared/components/screen-layout";
+import type { RootStackParamList } from "../../shared/features/navigation";
 import { randomHexColor } from "../../shared/logic/colors";
+import { generateId } from "../../shared/logic/id";
+import { useActionsStore } from "../../shared/stores/actions";
+import { styles } from "./styles";
 
-export default function ActionEditor() {
+type Props = NativeStackScreenProps<RootStackParamList, "action-editor">;
+
+export default function ActionEditor({ route }: Props) {
+
+    const actionId = route.params?.actionId;
 
     const { dispatch } = useNavigation();
-    const [actionColor, setActionColor] = useState(randomHexColor(1));
-    const [actionName, setActionName] = useState("Close the door");
+    const [actionColor, setActionColor] = useState<string | undefined>(undefined);
+    const [actionName, setActionName] = useState<string | undefined>(undefined);
+    const { getAction, addAction } = useActionsStore();
+
+    useEffect(() => {
+        if (!actionId) {
+            setActionName(undefined);
+            setActionColor(randomHexColor(1));
+            return;
+        }
+        const data = getAction(actionId);
+        setActionName(data?.title ?? undefined);
+        setActionColor(data?.color ?? randomHexColor(1));
+    }, [actionId]);
+
 
     const updatedActionColor =
         (color: ColorFormatsObject) => setActionColor(color.hex);
+
+    const addActionHandler = () => {
+
+        if (!actionName || !actionColor) {
+            return;
+        }
+
+        addAction({
+            id: actionId ?? generateId(),
+            title: actionName,
+            color: actionColor,
+        });
+        dispatch(StackActions.pop(1));
+    }
 
     return (
 
@@ -23,19 +59,22 @@ export default function ActionEditor() {
             header={"New Action"}
             footer={
                 <BottomSheet>
-                    <Button title={"Add action"} />
+                    {<Button title={"Add action"} onPress={addActionHandler} />}
                     <Button title={"<- back"} onPress={() => dispatch(StackActions.pop(1))} />
                 </BottomSheet>
             }
         >
-            <FloatingSheet>
+            <FloatingSheet contentStyle={styles.section}>
+                <Text style={styles.label}>Action name</Text>
                 <TextInput
                     placeholder="Enter action name"
                     value={actionName}
                     onChangeText={setActionName}
+                    style={styles.textInput}
                 />
             </FloatingSheet>
-            <FloatingSheet>
+            <FloatingSheet contentStyle={styles.section} allowOverflow>
+                <Text style={styles.label}>Action color</Text>
                 <ColorPicker
                     value={actionColor}
                     sliderThickness={25}
@@ -43,11 +82,11 @@ export default function ActionEditor() {
                     thumbShape='circle'
                     onChangeJS={updatedActionColor}
                     onCompleteJS={updatedActionColor}
-                    style={{}}
+                    style={styles.colorPicker}
                     boundedThumb={false}
                 >
-                    <Panel1 style={{}} />
-                    <HueSlider style={{}} />
+                    <Panel1 style={styles.panel1} />
+                    <HueSlider style={styles.hueSlider} sliderThickness={56} boundedThumb={true} thumbShape="line" />
 
                 </ColorPicker>
             </FloatingSheet>

@@ -4,9 +4,10 @@ import { buildFloatingSheetStyles, resolveFloatingSheetTokens } from "./styles";
 
 export interface FloatingSheetProps extends ViewProps {
     allowOverflow?: boolean;
+    contentStyle?: ViewProps["style"];
 }
 
-export default function FloatingSheet({ children, style, allowOverflow = false }: FloatingSheetProps) {
+export default function FloatingSheet({ children, style, contentStyle, allowOverflow = false }: FloatingSheetProps) {
 
     const { styles } = useTokenStyles({
         resolver: resolveFloatingSheetTokens,
@@ -16,7 +17,7 @@ export default function FloatingSheet({ children, style, allowOverflow = false }
 
     return (
         <View style={[style, styles.shadow]}>
-            <View style={styles.container}>
+            <View style={[styles.container, contentStyle]}>
                 {children}
             </View>
         </View>

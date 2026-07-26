@@ -16,7 +16,7 @@ export function DidI() {
             headerSticky
             footer={
                 <BottomSheet>
-                    <Button title="Add action" onPress={() => navigate("action-editor")} />
+                    <Button title="Create action" onPress={() => navigate("action-editor")} />
                     <Button title="History" onPress={() => navigate("i-did")} />
                 </BottomSheet>
             }
