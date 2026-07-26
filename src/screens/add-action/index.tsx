@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Text, TextInput } from "react-native";
-import { KeyboardAvoidingView } from "react-native-keyboard-controller";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { TextInput } from "react-native";
 import ColorPicker, { ColorFormatsObject, HueSlider, Panel1 } from "reanimated-color-picker";
+import FloatingSheet from "../../shared/components/floating-sheet";
+import ScreenLayout from "../../shared/components/screen-layout";
 import { randomHexColor } from "../../shared/logic/colors";
-import ActionItem from "../did-i/components/action-item";
 
 export default function NewAction() {
 
@@ -15,15 +14,16 @@ export default function NewAction() {
         (color: ColorFormatsObject) => setActionColor(color.hex);
 
     return (
-        <SafeAreaView edges={['top']}>
-            <KeyboardAvoidingView>
-                <Text>New Action</Text>
 
+        <ScreenLayout header={"New Action"}>
+            <FloatingSheet>
                 <TextInput
                     placeholder="Enter action name"
                     value={actionName}
                     onChangeText={setActionName}
                 />
+            </FloatingSheet>
+            <FloatingSheet>
                 <ColorPicker
                     value={actionColor}
                     sliderThickness={25}
@@ -38,9 +38,8 @@ export default function NewAction() {
                     <HueSlider style={{}} />
 
                 </ColorPicker>
+            </FloatingSheet>
+        </ScreenLayout>
 
-                <ActionItem name={actionName} color={actionColor} />
-            </KeyboardAvoidingView>
-        </SafeAreaView>
     )
 }

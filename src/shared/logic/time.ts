@@ -1,54 +1,23 @@
 
-export function formatISODate(ISOString: string): string {
-    const date = new Date(ISOString);
+export const SECOND = 1000;
+export const MINUTE = 60 * SECOND;
+export const HOUR = 60 * MINUTE;
+export const DAY = 24 * HOUR;
 
-    if (Number.isNaN(date.getTime())) {
-        return '';
+export function formatTimePassedSince(passedTime: number): string {
+    if (passedTime < MINUTE) {
+        const seconds = Math.floor(passedTime / SECOND);
+        return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
     }
-
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMinutes = Math.floor(diffMs / 60000);
-
-    if (diffMinutes >= 0 && diffMinutes < 60) {
-        const minuteLabel = diffMinutes === 1 ? 'minute' : 'minutes';
-        return `${diffMinutes} ${minuteLabel} ago`;
+    if (passedTime < HOUR) {
+        const minutes = Math.floor(passedTime / MINUTE);
+        return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
     }
-
-    const isSameDay =
-        date.getFullYear() === now.getFullYear() &&
-        date.getMonth() === now.getMonth() &&
-        date.getDate() === now.getDate();
-
-    const yesterday = new Date(now);
-    yesterday.setDate(now.getDate() - 1);
-
-    const isYesterday =
-        date.getFullYear() === yesterday.getFullYear() &&
-        date.getMonth() === yesterday.getMonth() &&
-        date.getDate() === yesterday.getDate();
-
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const timePart = `${hours}:${minutes}`;
-
-    if (isSameDay) {
-        return `Today at ${timePart}`;
+    if (passedTime < DAY) {
+        const hours = Math.floor(passedTime / HOUR);
+        return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
     }
-
-    if (isYesterday) {
-        return `Yesterday at ${timePart}`;
-    }
-
-    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const startOfDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    const dayDiff = Math.max(
-        1,
-        Math.floor((startOfToday.getTime() - startOfDate.getTime()) / (1000 * 60 * 60 * 24)),
-    );
-    const dayLabel = dayDiff === 1 ? 'day' : 'days';
-
-    return `${dayDiff} ${dayLabel} ago`;
+    return ""
 }
 
 export function formatDateTime(ISOString: string): string {
@@ -59,4 +28,10 @@ export function formatDateTime(ISOString: string): string {
     const hours = String(d.getHours()).padStart(2, '0');
     const minutes = String(d.getMinutes()).padStart(2, '0');
     return `On ${day}/${month}/${year} at ${hours}:${minutes}`;
+}
+
+export function timePassedSince(ISOString: string): number {
+    const date = new Date(ISOString);
+    const now = new Date();
+    return now.getTime() - date.getTime();
 }

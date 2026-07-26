@@ -58,6 +58,17 @@ export function buildCompletedActionItemStyles(tokens: CompletedActionItemTokens
         time: {
             fontSize: 14,
             color: "#888",
+        },
+        timePassed: {
+            position: "absolute",
+            top: -12,
+            right: 30,
+            fontSize: 12,
+            color: "#fff",
+            backgroundColor: "#000",
+            paddingHorizontal: 12,
+            paddingVertical: 6,
+            borderRadius: 20,
         }
     });
 }
