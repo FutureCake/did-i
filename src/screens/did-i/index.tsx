@@ -17,7 +17,7 @@ export function DidI() {
             footer={
                 <BottomSheet>
                     <Button title="Create action" onPress={() => navigate("action-editor")} />
-                    <Button title="History" onPress={() => navigate("i-did")} />
+                    <Button variant="shy" title="Actions history" onPress={() => navigate("i-did")} />
                 </BottomSheet>
             }
         >
