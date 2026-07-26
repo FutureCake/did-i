@@ -10,6 +10,7 @@ interface ActionsStore {
     getAction: (actionId: string) => ActionData | null;
     addCompletedAction: (actionId: string) => void;
     addAction: (action: ActionData) => void;
+    updateAction: (actionId: string, updatedAction: Partial<ActionData>) => void;
     removeAction: (actionId: string) => void;
 }
 
@@ -49,6 +50,13 @@ export const useActionsStore = create<ActionsStore>()(
             removeAction: (actionId: string) =>
                 set((state: ActionsStore) => {
                     state.actions = state.actions.filter((actionType) => actionType.id !== actionId);
+                }),
+            updateAction: (actionId: string, updatedAction: Partial<ActionData>) =>
+                set((state: ActionsStore) => {
+                    const action = state.actions.find((action) => action.id === actionId);
+                    if (action) {
+                        Object.assign(action, updatedAction);
+                    }
                 }),
         })),
         {

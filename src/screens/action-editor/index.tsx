@@ -22,7 +22,7 @@ export default function ActionEditor({ route }: Props) {
     const { dispatch } = useNavigation();
     const [actionColor, setActionColor] = useState<string | undefined>(undefined);
     const [actionName, setActionName] = useState<string | undefined>(undefined);
-    const { getAction, addAction } = useActionsStore();
+    const { getAction, addAction, updateAction } = useActionsStore();
 
     useEffect(() => {
         if (!actionId) {
@@ -45,21 +45,38 @@ export default function ActionEditor({ route }: Props) {
             return;
         }
 
-        addAction({
-            id: actionId ?? generateId(),
-            title: actionName,
-            color: actionColor,
-        });
+        if (actionId) {
+            updateAction(actionId, {
+                title: actionName,
+                color: actionColor,
+            });
+        } else {
+            addAction({
+                id: generateId(),
+                title: actionName,
+                color: actionColor,
+            });
+        }
+
         dispatch(StackActions.pop(1));
     }
+
+    const isValid = !!actionName && !!actionColor;
+
+    const hasChanges = (() => {
+        if (!actionId) return isValid;
+        const existing = getAction(actionId);
+        if (!existing) return isValid;
+        return actionName !== existing.title || actionColor !== existing.color;
+    })();
 
     return (
 
         <ScreenLayout
-            header={"New Action"}
+            header={actionId ? "Edit Action" : "New Action"}
             footer={
                 <BottomSheet>
-                    {<Button title={"Add action"} onPress={addActionHandler} />}
+                    {hasChanges && <Button title={actionId ? "Save changes" : "Add action"} onPress={addActionHandler} />}
                     <Button title={"<- back"} onPress={() => dispatch(StackActions.pop(1))} />
                 </BottomSheet>
             }
