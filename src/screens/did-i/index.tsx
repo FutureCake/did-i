@@ -8,14 +8,15 @@ import ActionItem from "./components/action-item";
 export function DidI() {
 
     const { navigate } = useNavigation();
-    const { actions, addCompletedAction } = useActionsStore();
+    const { actions, addCompletedAction, removeAction } = useActionsStore();
 
     return (
         <ScreenLayout
             header="Did I?"
             headerSticky
             footer={
-                <BottomSheet onAddAction={() => navigate("new-action")} >
+                <BottomSheet>
+                    <Button title="Add action" onPress={() => navigate("action-editor")} />
                     <Button title="History" onPress={() => navigate("i-did")} />
                 </BottomSheet>
             }
@@ -26,8 +27,8 @@ export function DidI() {
                         {...action}
                         key={`action-${index}`}
                         onComplete={() => addCompletedAction(action.id)}
-                        onDelete={() => { }}
-                        onEdit={() => { }}
+                        onDelete={() => removeAction(action.id)}
+                        onEdit={() => navigate("action-editor", { actionId: action.id })}
                     />
                 ))
             }

@@ -8,8 +8,8 @@ interface ActionsStore {
     actions: ActionData[];
     completedActions: CompletedActionData[];
     addCompletedAction: (actionId: string) => void;
-    addActionType: (action: ActionData) => void;
-    removeActionType: (actionId: string) => void;
+    addAction: (action: ActionData) => void;
+    removeAction: (actionId: string) => void;
 }
 
 export const useActionsStore = create<ActionsStore>()(
@@ -39,11 +39,11 @@ export const useActionsStore = create<ActionsStore>()(
                         completedAt: new Date().toISOString(),
                     });
                 }),
-            addActionType: (action) =>
+            addAction: (action) =>
                 set((state: ActionsStore) => {
                     state.actions.push(action);
                 }),
-            removeActionType: (actionId: string) =>
+            removeAction: (actionId: string) =>
                 set((state: ActionsStore) => {
                     state.actions = state.actions.filter((actionType) => actionType.id !== actionId);
                 }),

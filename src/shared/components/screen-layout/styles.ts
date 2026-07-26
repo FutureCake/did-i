@@ -55,6 +55,13 @@ export function buildScreenLayoutStyles(tokens: ScreenLayoutTokens) {
         header: {
             marginVertical: 16,
         },
+        headerGradient: {
+            top: 0,
+            left: -10,
+            right: -10,
+            position: "absolute",
+            bottom: -50
+        },
         headerTitle: {
             color: tokens.headerColor,
             fontSize: 64,
