@@ -13,14 +13,14 @@ import { scheduleOnRN } from "react-native-worklets";
 import FloatingSheet from "../../../../shared/components/floating-sheet";
 import LoadingCircle from "../../../../shared/components/loading-circle";
 import { useTokenStyles } from "../../../../shared/hooks/use-token-styles";
-import { Action } from "../../../../types/actions";
+import { ActionData } from "../../../../types/actions";
 import { buildActionItemStyles, resolveActionItemTokens } from "./styles";
 
-export interface ActionItemProps extends Action {
+export interface ActionItemProps extends ActionData {
     style?: StyleProp<ViewStyle>;
-    onComplete?: () => void;
-    onEdit?: () => void;
-    onDelete?: () => void;
+    onComplete?: (id: string) => void;
+    onEdit?: (id: string) => void;
+    onDelete?: (id: string) => void;
 }
 
 const SWIPE_THRESHOLD = 0.2;
@@ -41,7 +41,7 @@ export default function ActionItem({ title, color, id, style, onComplete, onEdit
     const buttonsOpen = useSharedValue(false);
 
     const handleComplete = () => {
-        onComplete?.();
+        onComplete?.(id);
     };
 
     const handleCancelCircle = () => {
@@ -168,10 +168,10 @@ export default function ActionItem({ title, color, id, style, onComplete, onEdit
 
                 {/* Left-swipe underlay: edit + delete buttons */}
                 <Animated.View style={[localStyles.underlayRight, rightButtonsStyle]}>
-                    <Pressable style={[localStyles.button, localStyles.editButton]} onPress={onEdit}>
+                    <Pressable style={[localStyles.button, localStyles.editButton]} onPress={() => onEdit?.(id)}>
                         <Animated.Text style={[localStyles.buttonText, iconOpacityStyle]}>✎</Animated.Text>
                     </Pressable>
-                    <Pressable style={[localStyles.button, localStyles.deleteButton]} onPress={onDelete}>
+                    <Pressable style={[localStyles.button, localStyles.deleteButton]} onPress={() => onDelete?.(id)}>
                         <Animated.Text style={[localStyles.buttonText, iconOpacityStyle]}>✕</Animated.Text>
                     </Pressable>
                 </Animated.View>

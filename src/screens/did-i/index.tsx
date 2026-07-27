@@ -26,9 +26,9 @@ export function DidI() {
                     <ActionItem
                         {...action}
                         key={`action-${index}`}
-                        onComplete={() => addCompletedAction(action.id)}
-                        onDelete={() => removeAction(action.id)}
-                        onEdit={() => navigate("action-editor", { actionId: action.id })}
+                        onComplete={(id) => addCompletedAction(id)}
+                        onDelete={(id) => removeAction(id)}
+                        onEdit={(id) => navigate("action-editor", { actionId: id })}
                     />
                 ))
             }
