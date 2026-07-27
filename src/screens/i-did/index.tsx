@@ -8,8 +8,12 @@ import CompletedAction from "./components/completed-action";
 export function IDid() {
 
     const { dispatch } = useNavigation();
-    const { completedActions } = useActionsStore();
-    const reversedCompletedActions = [...completedActions].reverse();
+    const { completedActions, actions, deletedActions } = useActionsStore();
+    const resolvedActions = [...completedActions].reverse().reduce<{ title: string; color: string; id: string; completedAt: string }[]>((acc, record) => {
+        const action = actions.find((a) => a.id === record.id) ?? deletedActions.find((a) => a.id === record.id);
+        if (action) acc.push({ ...action, completedAt: record.completedAt });
+        return acc;
+    }, []);
 
     return (
         <ScreenLayout
@@ -21,7 +25,7 @@ export function IDid() {
                 </BottomSheet>
             }
         >
-            {reversedCompletedActions.map((action, idx) => (
+            {resolvedActions.map((action, idx) => (
                 <CompletedAction
                     key={`completed-action-${action.id}-${idx}`}
                     title={action.title}

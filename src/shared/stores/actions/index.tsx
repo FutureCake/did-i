@@ -2,11 +2,12 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import persistentStorage from '../../../libraries/persistent-storage';
-import { ActionData, CompletedActionData } from '../../../types/actions';
+import { ActionData, CompletedActionRecord } from '../../../types/actions';
 
 interface ActionsStore {
     actions: ActionData[];
-    completedActions: CompletedActionData[];
+    deletedActions: ActionData[];
+    completedActions: CompletedActionRecord[];
     getAction: (actionId: string) => ActionData | null;
     addCompletedAction: (actionId: string) => void;
     addAction: (action: ActionData) => void;
@@ -26,6 +27,7 @@ export const useActionsStore = create<ActionsStore>()(
                 color: "#FFFF00",
                 id: "2",
             }],
+            deletedActions: [],
             completedActions: [],
             getAction: (actionId: string) =>
                 get().actions.find((action) => action.id === actionId) ?? null,
@@ -39,7 +41,7 @@ export const useActionsStore = create<ActionsStore>()(
                     }
 
                     state.completedActions.push({
-                        ...action,
+                        id: actionId,
                         completedAt: new Date().toISOString(),
                     });
                 }),
@@ -49,7 +51,12 @@ export const useActionsStore = create<ActionsStore>()(
                 }),
             removeAction: (actionId: string) =>
                 set((state: ActionsStore) => {
-                    state.actions = state.actions.filter((actionType) => actionType.id !== actionId);
+                    const action = state.actions.find((action) => action.id === actionId);
+                    if (!action) {
+                        return;
+                    }
+                    state.actions = state.actions.filter((action) => action.id !== actionId);
+                    state.deletedActions.push(action);
                 }),
             updateAction: (actionId: string, updatedAction: Partial<ActionData>) =>
                 set((state: ActionsStore) => {

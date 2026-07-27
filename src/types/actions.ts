@@ -8,3 +8,8 @@ export interface ActionData {
 export type CompletedActionData = ActionData & {
     completedAt: string;
 };
+
+export interface CompletedActionRecord {
+    id: string;
+    completedAt: string;
+}
