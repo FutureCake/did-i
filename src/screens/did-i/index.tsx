@@ -4,11 +4,14 @@ import Button from "../../shared/components/button";
 import ScreenLayout from "../../shared/components/screen-layout";
 import { useActionsStore } from "../../shared/stores/actions";
 import ActionItem from "./components/action-item";
+import NoActions from "./components/no-actions";
 
 export function DidI() {
 
     const { navigate } = useNavigation();
     const { actions, addCompletedAction, removeAction } = useActionsStore();
+
+    const hasActions = actions.length > 0;
 
     return (
         <ScreenLayout
@@ -21,7 +24,7 @@ export function DidI() {
                 </BottomSheet>
             }
         >
-            {
+            {hasActions ?
                 actions.map((action, index) => (
                     <ActionItem
                         {...action}
@@ -30,7 +33,9 @@ export function DidI() {
                         onDelete={(id) => removeAction(id)}
                         onEdit={(id) => navigate("action-editor", { actionId: id })}
                     />
-                ))
+                )) : (
+                    <NoActions />
+                )
             }
         </ScreenLayout>
     );
