@@ -28,7 +28,7 @@ export function DidI() {
                 actions.map((action, index) => (
                     <ActionItem
                         {...action}
-                        key={`action-${index}`}
+                        key={action.id}
                         onComplete={(id) => addCompletedAction(id)}
                         onDelete={(id) => removeAction(id)}
                         onEdit={(id) => navigate("action-editor", { actionId: id })}

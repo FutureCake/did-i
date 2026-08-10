@@ -4,6 +4,8 @@ import Animated, {
     cancelAnimation,
     Easing,
     interpolate,
+    Keyframe,
+    LinearTransition,
     useAnimatedStyle,
     useSharedValue,
     withSpring,
@@ -29,6 +31,11 @@ const BUTTON_WIDTH = 60;
 const LEFT_BUTTONS_WIDTH = BUTTON_WIDTH * 2;
 const BORDER_RADIUS = 34;
 
+const exitAnimation = new Keyframe({
+    0: { transform: [{ scaleY: 1 }], opacity: 1 },
+    100: { transform: [{ scaleY: 0 }], opacity: 0 },
+}).duration(300);
+
 export default function ActionItem({ title, color, id, style, onComplete, onEdit, onDelete }: ActionItemProps) {
 
     const { styles } = useTokenStyles({
@@ -43,6 +50,13 @@ export default function ActionItem({ title, color, id, style, onComplete, onEdit
 
     const handleComplete = () => {
         onComplete?.(id);
+    };
+
+    const handleAction = (action: (id: string) => void) => {
+        buttonsOpen.value = false;
+        translateX.value = withTiming(0, { duration: 200 }, () => {
+            scheduleOnRN(action, id);
+        });
     };
 
     const handleCancelCircle = () => {
@@ -150,41 +164,43 @@ export default function ActionItem({ title, color, id, style, onComplete, onEdit
     }));
 
     return (
-        <FloatingSheet style={style}>
-            <View
-                style={localStyles.wrapper}
-                onLayout={(e) => {
-                    containerWidth.value = e.nativeEvent.layout.width;
-                }}
-            >
-                {/* Right-swipe underlay: red completed */}
-                <View style={[localStyles.underlayLeft, localStyles.completedBg, { backgroundColor: color }]}>
-                    <Text style={localStyles.completedText}>Completed</Text>
-                    <Pressable onPress={handleCancelCircle}>
-                        <LoadingCircle size={40} progress={circleProgress} color="#FFF">
-                            <Text style={localStyles.buttonText}>✕</Text>
-                        </LoadingCircle>
-                    </Pressable>
-                </View>
+        <Animated.View exiting={exitAnimation} layout={LinearTransition.duration(300)}>
+            <FloatingSheet style={style}>
+                <View
+                    style={localStyles.wrapper}
+                    onLayout={(e) => {
+                        containerWidth.value = e.nativeEvent.layout.width;
+                    }}
+                >
+                    {/* Right-swipe underlay: red completed */}
+                    <View style={[localStyles.underlayLeft, localStyles.completedBg, { backgroundColor: color }]}>
+                        <Text style={localStyles.completedText}>Completed</Text>
+                        <Pressable onPress={handleCancelCircle}>
+                            <LoadingCircle size={40} progress={circleProgress} color="#FFF">
+                                <Text style={localStyles.buttonText}>✕</Text>
+                            </LoadingCircle>
+                        </Pressable>
+                    </View>
 
-                {/* Left-swipe underlay: edit + delete buttons */}
-                <Animated.View style={[localStyles.underlayRight, rightButtonsStyle]}>
-                    <Pressable style={[localStyles.button, localStyles.editButton]} onPress={() => onEdit?.(id)}>
-                        <Animated.Text style={[localStyles.buttonText, iconOpacityStyle]}>✎</Animated.Text>
-                    </Pressable>
-                    <Pressable style={[localStyles.button, localStyles.deleteButton]} onPress={() => onDelete?.(id)}>
-                        <Animated.Text style={[localStyles.buttonText, iconOpacityStyle]}>✕</Animated.Text>
-                    </Pressable>
-                </Animated.View>
-
-                <GestureDetector gesture={gesture}>
-                    <Animated.View style={[styles.container, foregroundStyle]}>
-                        <View style={[styles.marker, { backgroundColor: color }]} />
-                        <MarqueeText fade="left" style={styles.title}>{title}</MarqueeText>
+                    {/* Left-swipe underlay: edit + delete buttons */}
+                    <Animated.View style={[localStyles.underlayRight, rightButtonsStyle]}>
+                        <Pressable style={[localStyles.button, localStyles.editButton]} onPress={() => onEdit && handleAction(onEdit)}>
+                            <Animated.Text style={[localStyles.buttonText, iconOpacityStyle]}>✎</Animated.Text>
+                        </Pressable>
+                        <Pressable style={[localStyles.button, localStyles.deleteButton]} onPress={() => onDelete && handleAction(onDelete)}>
+                            <Animated.Text style={[localStyles.buttonText, iconOpacityStyle]}>✕</Animated.Text>
+                        </Pressable>
                     </Animated.View>
-                </GestureDetector>
-            </View>
-        </FloatingSheet>
+
+                    <GestureDetector gesture={gesture}>
+                        <Animated.View style={[styles.container, foregroundStyle]}>
+                            <View style={[styles.marker, { backgroundColor: color }]} />
+                            <MarqueeText fade="left" style={styles.title}>{title}</MarqueeText>
+                        </Animated.View>
+                    </GestureDetector>
+                </View>
+            </FloatingSheet>
+        </Animated.View>
     );
 }
 
