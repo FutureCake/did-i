@@ -60,7 +60,7 @@ export function buildScreenLayoutStyles(tokens: ScreenLayoutTokens) {
             left: -10,
             right: -10,
             position: "absolute",
-            bottom: -50
+            bottom: -40
         },
         headerTitle: {
             color: tokens.headerColor,
