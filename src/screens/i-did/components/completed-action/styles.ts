@@ -49,6 +49,8 @@ export function buildCompletedActionItemStyles(tokens: CompletedActionItemTokens
             borderRadius: 14,
         },
         content: {
+            flex: 1,
+            overflow: "hidden",
             gap: 4,
         },
         title: {

@@ -12,6 +12,7 @@ import Animated, {
 import { scheduleOnRN } from "react-native-worklets";
 import FloatingSheet from "../../../../shared/components/floating-sheet";
 import LoadingCircle from "../../../../shared/components/loading-circle";
+import MarqueeText from "../../../../shared/components/marquee-text";
 import { useTokenStyles } from "../../../../shared/hooks/use-token-styles";
 import { ActionData } from "../../../../types/actions";
 import { buildActionItemStyles, resolveActionItemTokens } from "./styles";
@@ -179,7 +180,7 @@ export default function ActionItem({ title, color, id, style, onComplete, onEdit
                 <GestureDetector gesture={gesture}>
                     <Animated.View style={[styles.container, foregroundStyle]}>
                         <View style={[styles.marker, { backgroundColor: color }]} />
-                        <Text style={styles.title}>{title}</Text>
+                        <MarqueeText fade="left" style={styles.title}>{title}</MarqueeText>
                     </Animated.View>
                 </GestureDetector>
             </View>

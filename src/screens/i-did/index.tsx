@@ -17,8 +17,6 @@ export function IDid() {
         return acc;
     }, []);
 
-    console.log("completedActions", completedActions, "resolvedActions", resolvedActions);
-
     return (
         <ScreenLayout
             header="I Did"
