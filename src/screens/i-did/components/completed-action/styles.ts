@@ -34,14 +34,16 @@ export function buildCompletedActionItemStyles(tokens: CompletedActionItemTokens
     return StyleSheet.create({
         container: {
             backgroundColor: tokens.backgroundColor,
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            gap: 15,
             paddingLeft: 20,
             paddingTop: 8,
             paddingBottom: 12,
             borderRadius: 34,
+        },
+        wrapper: {
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            gap: 15,
         },
         marker: {
             width: 28,

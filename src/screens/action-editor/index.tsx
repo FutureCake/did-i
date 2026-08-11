@@ -95,6 +95,7 @@ export default function ActionEditor({ route }: Props) {
                 </Text>
                 <TextInput
                     placeholder="Enter action name"
+                    placeholderTextColor="#b8b8b8"
                     value={actionName}
                     onChangeText={setActionName}
                     style={styles.textInput}

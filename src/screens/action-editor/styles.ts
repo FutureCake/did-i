@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
         fontFamily: "inter",
     },
     textInput: {
-        height: 56,
+        paddingVertical: 7,
         fontSize: 32,
         borderColor: "#e4e4e4",
         borderWidth: 1,
