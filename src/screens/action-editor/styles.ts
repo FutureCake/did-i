@@ -24,10 +24,20 @@ export const styles = StyleSheet.create({
     colorPicker: {
         gap: 8,
     },
+    panelsWapper: {
+        flexDirection: "row",
+        gap: 8,
+    },
     panel1: {
-        borderRadius: 28
+        borderRadius: 28,
+    },
+    preview: {
+        borderRadius: 28,
+        height: 56,
+        aspectRatio: 1,
     },
     hueSlider: {
         borderRadius: 28,
+        flexGrow: 1,
     }
 });

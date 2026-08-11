@@ -1,8 +1,8 @@
 import { StackActions, useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect, useState } from "react";
-import { Text, TextInput } from "react-native";
-import ColorPicker, { ColorFormatsObject, HueSlider, Panel1 } from "reanimated-color-picker";
+import { Text, TextInput, View } from "react-native";
+import ColorPicker, { ColorFormatsObject, HueSlider, Panel1, Preview } from "reanimated-color-picker";
 import BottomSheet from "../../shared/components/bottom-sheet";
 import Button from "../../shared/components/button";
 import FloatingSheet from "../../shared/components/floating-sheet";
@@ -117,12 +117,19 @@ export default function ActionEditor({ route }: Props) {
                     boundedThumb={false}
                 >
                     <Panel1 style={styles.panel1} />
-                    <HueSlider
-                        style={styles.hueSlider}
-                        sliderThickness={56}
-                        boundedThumb={true}
-                        thumbShape="line"
-                    />
+                    <View style={styles.panelsWapper}>
+                        <HueSlider
+                            style={styles.hueSlider}
+                            sliderThickness={56}
+                            boundedThumb={true}
+                            thumbShape="line"
+                        />
+                        <Preview
+                            hideText
+                            hideInitialColor
+                            style={styles.preview} />
+                    </View>
+
                 </ColorPicker>
             </FloatingSheet>
         </ScreenLayout>
