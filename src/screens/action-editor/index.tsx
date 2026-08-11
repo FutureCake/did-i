@@ -76,13 +76,23 @@ export default function ActionEditor({ route }: Props) {
             header={actionId ? "Edit Action" : "New Action"}
             footer={
                 <BottomSheet>
-                    {hasChanges && <Button title={actionId ? "Save changes" : "Add action"} onPress={addActionHandler} />}
-                    <Button title={"<- back"} onPress={() => dispatch(StackActions.pop(1))} />
+                    <Button
+                        disabled={!hasChanges}
+                        title={actionId ? "Save changes" : "Add action"}
+                        onPress={addActionHandler}
+                    />
+                    <Button
+                        variant="shy"
+                        title={"<- back"}
+                        onPress={() => dispatch(StackActions.pop(1))}
+                    />
                 </BottomSheet>
             }
         >
             <FloatingSheet contentStyle={styles.section}>
-                <Text style={styles.label}>Action name</Text>
+                <Text style={styles.label}>
+                    Action name
+                </Text>
                 <TextInput
                     placeholder="Enter action name"
                     value={actionName}
@@ -90,7 +100,10 @@ export default function ActionEditor({ route }: Props) {
                     style={styles.textInput}
                 />
             </FloatingSheet>
-            <FloatingSheet contentStyle={styles.section} allowOverflow>
+            <FloatingSheet
+                contentStyle={styles.section}
+                allowOverflow
+            >
                 <Text style={styles.label}>Action color</Text>
                 <ColorPicker
                     value={actionColor}
@@ -103,8 +116,12 @@ export default function ActionEditor({ route }: Props) {
                     boundedThumb={false}
                 >
                     <Panel1 style={styles.panel1} />
-                    <HueSlider style={styles.hueSlider} sliderThickness={56} boundedThumb={true} thumbShape="line" />
-
+                    <HueSlider
+                        style={styles.hueSlider}
+                        sliderThickness={56}
+                        boundedThumb={true}
+                        thumbShape="line"
+                    />
                 </ColorPicker>
             </FloatingSheet>
         </ScreenLayout>

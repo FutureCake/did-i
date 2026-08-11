@@ -51,17 +51,18 @@ export function buildMostRecentActionStyles(tokens: MostRecentActionTokens) {
         },
         indicator: {
             fontSize: 18,
-
+            fontFamily: "inter",
         },
         action: {
             fontSize: 32,
-            fontWeight: "bold",
+            fontFamily: "inter-bold",
             marginTop: 4,
             marginBottom: 8,
         },
         history: {
             color: "#092aff",
             textDecorationLine: "underline",
+            fontFamily: "inter",
         }
     });
 }

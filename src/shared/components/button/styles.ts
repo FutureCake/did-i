@@ -10,21 +10,21 @@ export interface ButtonTokens {
     color: string;
 }
 
-const themeTokens: TokenDefintions<UITheme, ButtonTokens> = {
-    dark: {
-        backgroundColor: "#FFFFFF",
-        color: "#000000"
-    },
-    light: {
-        backgroundColor: "#000000",
-        color: "#FFFFFF"
-    }
+const themeTokens: TokenDefintions<UITheme, ButtonTokens, boolean> = {
+    dark: (disabled: boolean) => ({
+        backgroundColor: disabled ? "#AAAAAA" : "#FFFFFF",
+        color: disabled ? "#666666" : "#000000"
+    }),
+    light: (disabled: boolean) => ({
+        backgroundColor: disabled ? "#CCCCCC" : "#000000",
+        color: disabled ? "#888888" : "#FFFFFF"
+    })
 }
 
 const variantTokens: TokenDefintions<ButtonVariant, ButtonTokens, UITheme> = {
     primary: {
         paddingVertical: 18,
-        fontSize: 40,
+        fontSize: 32,
     },
     shy: (theme: UITheme) => ({
         backgroundColor: undefined,
@@ -35,8 +35,9 @@ const variantTokens: TokenDefintions<ButtonVariant, ButtonTokens, UITheme> = {
 }
 
 export function resolveButtonTokens(params: {
-    uiTheme: UITheme
-    variant: ButtonVariant
+    uiTheme: UITheme;
+    variant: ButtonVariant;
+    disabled?: boolean | null;
 }): ButtonTokens {
 
     const base: ButtonTokens = {
@@ -48,7 +49,7 @@ export function resolveButtonTokens(params: {
 
     const merged = {
         ...base,
-        ...themeTokens[params.uiTheme],
+        ...resolveTokens(themeTokens, params.uiTheme, params.disabled ?? false),
         ...resolveTokens(variantTokens, params.variant, params.uiTheme),
     };
 
@@ -67,7 +68,8 @@ export function buildButtonStyles(tokens: ButtonTokens) {
         title: {
             fontSize: tokens.fontSize,
             textAlign: "center",
-            color: tokens.color
+            color: tokens.color,
+            fontFamily: "inter",
         },
     });
 }

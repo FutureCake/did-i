@@ -65,7 +65,7 @@ export function buildScreenLayoutStyles(tokens: ScreenLayoutTokens) {
         headerTitle: {
             color: tokens.headerColor,
             fontSize: 64,
-            fontWeight: "bold",
+            fontFamily: "inter-bold",
         },
     });
 }

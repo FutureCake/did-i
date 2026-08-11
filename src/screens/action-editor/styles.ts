@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         color: "#4f4f4f",
         paddingLeft: 20,
+        fontFamily: "inter",
     },
     textInput: {
         height: 56,
@@ -17,7 +18,8 @@ export const styles = StyleSheet.create({
         borderColor: "#e4e4e4",
         borderWidth: 1,
         borderRadius: 28,
-        paddingLeft: 18
+        paddingLeft: 18,
+        fontFamily: "inter",
     },
     colorPicker: {
         gap: 8,

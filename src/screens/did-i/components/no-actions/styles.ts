@@ -36,7 +36,7 @@ export function buildNoActionsStyles(tokens: NoActionsTokens) {
             gap: 32,
         },
         text: {
-            fontWeight: "bold",
+            fontFamily: "inter-bold",
             textAlign: "center",
             fontSize: 32,
             color: tokens.color,

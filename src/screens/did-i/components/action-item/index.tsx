@@ -1,4 +1,4 @@
-import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
+import { Pressable, StyleProp, Text, View, ViewStyle } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
     cancelAnimation,
@@ -12,11 +12,13 @@ import Animated, {
     withTiming
 } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
+import { colorKit } from "reanimated-color-picker";
 import FloatingSheet from "../../../../shared/components/floating-sheet";
 import LoadingCircle from "../../../../shared/components/loading-circle";
 import MarqueeText from "../../../../shared/components/marquee-text";
 import { useTokenStyles } from "../../../../shared/hooks/use-token-styles";
 import { ActionData } from "../../../../types/actions";
+import { BORDER_RADIUS, LEFT_BUTTONS_WIDTH, SWIPE_THRESHOLD } from "./constants";
 import { buildActionItemStyles, resolveActionItemTokens } from "./styles";
 
 export interface ActionItemProps extends ActionData {
@@ -26,10 +28,6 @@ export interface ActionItemProps extends ActionData {
     onDelete?: (id: string) => void;
 }
 
-const SWIPE_THRESHOLD = 0.2;
-const BUTTON_WIDTH = 60;
-const LEFT_BUTTONS_WIDTH = BUTTON_WIDTH * 2;
-const BORDER_RADIUS = 34;
 
 const exitAnimation = new Keyframe({
     0: { transform: [{ scaleY: 1 }], opacity: 1 },
@@ -38,9 +36,11 @@ const exitAnimation = new Keyframe({
 
 export default function ActionItem({ title, color, id, style, onComplete, onEdit, onDelete }: ActionItemProps) {
 
+    const completedUIColor = colorKit.isDark(color) ? "#FFFFFF" : "#000000";
     const { styles } = useTokenStyles({
         resolver: resolveActionItemTokens,
         builder: buildActionItemStyles,
+        props: { completedUIColor },
     });
 
     const translateX = useSharedValue(0);
@@ -167,28 +167,27 @@ export default function ActionItem({ title, color, id, style, onComplete, onEdit
         <Animated.View exiting={exitAnimation} layout={LinearTransition.duration(300)}>
             <FloatingSheet style={style}>
                 <View
-                    style={localStyles.wrapper}
+                    style={styles.wrapper}
                     onLayout={(e) => {
                         containerWidth.value = e.nativeEvent.layout.width;
                     }}
                 >
-                    {/* Right-swipe underlay: red completed */}
-                    <View style={[localStyles.underlayLeft, localStyles.completedBg, { backgroundColor: color }]}>
-                        <Text style={localStyles.completedText}>Completed</Text>
+                    <View style={[styles.underlayLeft, styles.completedBg, { backgroundColor: color }]}>
+                        <Text style={styles.completedText}>Completed</Text>
                         <Pressable onPress={handleCancelCircle}>
-                            <LoadingCircle size={40} progress={circleProgress} color="#FFF">
-                                <Text style={localStyles.buttonText}>✕</Text>
+                            <LoadingCircle size={40} progress={circleProgress} color={completedUIColor}>
+                                <Text style={[styles.buttonText, styles.completedActionCloseText]}>✕</Text>
                             </LoadingCircle>
                         </Pressable>
                     </View>
 
                     {/* Left-swipe underlay: edit + delete buttons */}
-                    <Animated.View style={[localStyles.underlayRight, rightButtonsStyle]}>
-                        <Pressable style={[localStyles.button, localStyles.editButton]} onPress={() => onEdit && handleAction(onEdit)}>
-                            <Animated.Text style={[localStyles.buttonText, iconOpacityStyle]}>✎</Animated.Text>
+                    <Animated.View style={[styles.underlayRight, rightButtonsStyle]}>
+                        <Pressable style={[styles.button, styles.editButton]} onPress={() => onEdit && handleAction(onEdit)}>
+                            <Animated.Text style={[styles.buttonText, iconOpacityStyle]}>✎</Animated.Text>
                         </Pressable>
-                        <Pressable style={[localStyles.button, localStyles.deleteButton]} onPress={() => onDelete && handleAction(onDelete)}>
-                            <Animated.Text style={[localStyles.buttonText, iconOpacityStyle]}>✕</Animated.Text>
+                        <Pressable style={[styles.button, styles.deleteButton]} onPress={() => onDelete && handleAction(onDelete)}>
+                            <Animated.Text style={[styles.buttonText, iconOpacityStyle]}>✕</Animated.Text>
                         </Pressable>
                     </Animated.View>
 
@@ -203,64 +202,3 @@ export default function ActionItem({ title, color, id, style, onComplete, onEdit
         </Animated.View>
     );
 }
-
-const localStyles = StyleSheet.create({
-    wrapper: {
-        position: "relative",
-        overflow: "hidden",
-        borderRadius: 34,
-    },
-    underlayLeft: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        justifyContent: "center",
-        alignItems: "flex-start",
-        paddingLeft: 24,
-    },
-    underlayRight: {
-        position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        overflow: "hidden",
-        backgroundColor: "#E53935",
-    },
-    completedBg: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        paddingHorizontal: 16,
-    },
-    completedText: {
-        color: "#FFF",
-        fontSize: 20,
-        fontWeight: "bold",
-    },
-    button: {
-        flex: 1,
-        height: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-        borderTopRightRadius: BORDER_RADIUS,
-        borderBottomRightRadius: BORDER_RADIUS,
-    },
-    editButton: {
-        backgroundColor: "#1E88E5",
-        paddingLeft: BORDER_RADIUS,
-        zIndex: 1,
-    },
-    deleteButton: {
-        backgroundColor: "#E53935",
-    },
-    buttonText: {
-        color: "#FFF",
-        fontSize: 22,
-        fontWeight: "bold",
-    },
-});

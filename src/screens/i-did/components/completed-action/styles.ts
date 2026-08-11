@@ -55,11 +55,12 @@ export function buildCompletedActionItemStyles(tokens: CompletedActionItemTokens
         },
         title: {
             fontSize: 34,
-            fontWeight: "bold"
+            fontFamily: "inter-bold"
         },
         time: {
             fontSize: 14,
             color: "#888",
+            fontFamily: "inter",
         },
         timePassed: {
             position: "absolute",
@@ -71,6 +72,7 @@ export function buildCompletedActionItemStyles(tokens: CompletedActionItemTokens
             paddingHorizontal: 12,
             paddingVertical: 6,
             borderRadius: 20,
+            fontFamily: "inter",
         }
     });
 }
