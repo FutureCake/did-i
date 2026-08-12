@@ -1,8 +1,8 @@
 import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ActionEditor from '../../../screens/action-editor';
-import { DidI } from '../../../screens/did-i';
-import { IDid } from '../../../screens/i-did';
+import ActionEditor from '../../screens/action-editor';
+import { DidI } from '../../screens/did-i';
+import { IDid } from '../../screens/i-did';
 
 const RootStack = createNativeStackNavigator({
     initialRouteName: 'did-i',

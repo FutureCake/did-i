@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import persistentStorage from '../../../libraries/persistent-storage';
+import persistentStorage from '../../../libraries/mmkv';
 import { ActionData, CompletedActionRecord } from '../../../types/actions';
 
 interface ActionsStore {
@@ -18,15 +18,7 @@ interface ActionsStore {
 export const useActionsStore = create<ActionsStore>()(
     persist(
         immer((set, get) => ({
-            actions: [{
-                title: "Close the door",
-                color: "#FF0000",
-                id: "1",
-            }, {
-                title: "Turn the gas off",
-                color: "#FFFF00",
-                id: "2",
-            }],
+            actions: [],
             deletedActions: [],
             completedActions: [],
             getAction: (actionId: string) =>
@@ -67,7 +59,7 @@ export const useActionsStore = create<ActionsStore>()(
                 }),
         })),
         {
-            name: 'actions-storeeeeeee',
+            name: 'actions-store',
             storage: createJSONStorage(() => persistentStorage),
             partialize: (state) => ({
                 actions: state.actions,

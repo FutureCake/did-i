@@ -1,4 +1,4 @@
-import type { RootStackParamList } from '../shared/features/navigation';
+import type { RootStackParamList } from '../shared/navigation';
 
 declare global {
     namespace ReactNavigation {

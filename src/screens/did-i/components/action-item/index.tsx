@@ -4,7 +4,6 @@ import Animated, {
     cancelAnimation,
     Easing,
     interpolate,
-    Keyframe,
     LinearTransition,
     useAnimatedStyle,
     useSharedValue,
@@ -13,6 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import { colorKit } from "reanimated-color-picker";
+import { exitHeightAnimation } from "../../../../libraries/reanimated";
 import FloatingSheet from "../../../../shared/components/floating-sheet";
 import LoadingCircle from "../../../../shared/components/loading-circle";
 import MarqueeText from "../../../../shared/components/marquee-text";
@@ -27,12 +27,6 @@ export interface ActionItemProps extends ActionData {
     onEdit?: (id: string) => void;
     onDelete?: (id: string) => void;
 }
-
-
-const exitAnimation = new Keyframe({
-    0: { transform: [{ scaleY: 1 }], opacity: 1 },
-    100: { transform: [{ scaleY: 0 }], opacity: 0 },
-}).duration(300);
 
 export default function ActionItem({ title, color, id, style, onComplete, onEdit, onDelete }: ActionItemProps) {
 
@@ -164,7 +158,7 @@ export default function ActionItem({ title, color, id, style, onComplete, onEdit
     }));
 
     return (
-        <Animated.View exiting={exitAnimation} layout={LinearTransition.duration(300)}>
+        <Animated.View exiting={exitHeightAnimation} layout={LinearTransition.duration(300)}>
             <FloatingSheet style={style}>
                 <View
                     style={styles.wrapper}

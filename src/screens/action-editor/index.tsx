@@ -7,9 +7,9 @@ import BottomSheet from "../../shared/components/bottom-sheet";
 import Button from "../../shared/components/button";
 import FloatingSheet from "../../shared/components/floating-sheet";
 import ScreenLayout from "../../shared/components/screen-layout";
-import type { RootStackParamList } from "../../shared/features/navigation";
 import { randomHexColor } from "../../shared/logic/colors";
 import { generateId } from "../../shared/logic/id";
+import type { RootStackParamList } from "../../shared/navigation";
 import { useActionsStore } from "../../shared/stores/actions";
 import { styles } from "./styles";
 
