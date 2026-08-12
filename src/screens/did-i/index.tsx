@@ -9,7 +9,7 @@ import NoActions from "./components/no-actions";
 export function DidI() {
 
     const { navigate } = useNavigation();
-    const { actions, addCompletedAction, removeAction } = useActionsStore();
+    const { actions, completedActions, addCompletedAction, removeAction } = useActionsStore();
 
     const hasActions = actions.length > 0;
 
@@ -20,7 +20,7 @@ export function DidI() {
             footer={
                 <BottomSheet>
                     <Button title="Create action" onPress={() => navigate("action-editor")} />
-                    <Button variant="shy" title="Actions history" onPress={() => navigate("i-did")} />
+                    {completedActions.length > 0 && <Button variant="shy" title="Actions history" onPress={() => navigate("i-did")} />}
                 </BottomSheet>
             }
         >
