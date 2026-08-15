@@ -13,6 +13,7 @@ interface ActionsStore {
     addAction: (action: ActionData | ActionData[]) => void;
     updateAction: (actionId: string, updatedAction: Partial<ActionData>) => void;
     removeAction: (actionId: string) => void;
+    clearHistory: () => void;
 }
 
 export const useActionsStore = create<ActionsStore>()(
@@ -60,6 +61,11 @@ export const useActionsStore = create<ActionsStore>()(
                     if (action) {
                         Object.assign(action, updatedAction);
                     }
+                }),
+            clearHistory: () =>
+                set((state: ActionsStore) => {
+                    state.completedActions = [];
+                    state.deletedActions = [];
                 }),
         })),
         {

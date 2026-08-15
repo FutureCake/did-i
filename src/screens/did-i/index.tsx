@@ -25,7 +25,7 @@ export function DidI() {
             headerSticky
             footer={
                 <BottomSheet>
-                    {actions.length === 0 && <Button title="Common actions" onPress={handleAddCommonActions} />}
+                    {!hasActions && <Button title="Common actions" onPress={handleAddCommonActions} />}
                     <Button title="Create action" onPress={() => navigate("action-editor")} />
                     {completedActions.length > 0 && <Button variant="shy" title="Actions history" onPress={() => navigate("i-did")} />}
                 </BottomSheet>
