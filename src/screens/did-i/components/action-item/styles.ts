@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { TokenDefintions, UITheme } from "../../../../types/styles";
+import { BORDER_RADIUS } from "./constants";
 
 export interface ActionItemTokens {
     backgroundColor: string;
@@ -37,7 +38,8 @@ export function resolveActionItemTokens(params: {
     return merged;
 }
 
-import { BORDER_RADIUS } from "./constants";
+const DELETE_BUTTON_COLOR = "#d73431";
+const EDIT_BUTTON_COLOR = "#000000";
 
 export function buildActionItemStyles(tokens: ActionItemTokens) {
     return StyleSheet.create({
@@ -47,7 +49,7 @@ export function buildActionItemStyles(tokens: ActionItemTokens) {
             flexDirection: "row",
             justifyContent: "flex-start",
             alignItems: "center",
-            gap: 15,
+            gap: 10,
             paddingLeft: 20,
             borderRadius: BORDER_RADIUS,
         },
@@ -84,7 +86,7 @@ export function buildActionItemStyles(tokens: ActionItemTokens) {
             justifyContent: "flex-end",
             alignItems: "center",
             overflow: "hidden",
-            backgroundColor: "#E53935",
+            backgroundColor: DELETE_BUTTON_COLOR,
         },
         completedBg: {
             flexDirection: "row",
@@ -106,12 +108,12 @@ export function buildActionItemStyles(tokens: ActionItemTokens) {
             borderBottomRightRadius: BORDER_RADIUS,
         },
         editButton: {
-            backgroundColor: "#1E88E5",
+            backgroundColor: EDIT_BUTTON_COLOR,
             paddingLeft: BORDER_RADIUS,
             zIndex: 1,
         },
         deleteButton: {
-            backgroundColor: "#E53935",
+            backgroundColor: DELETE_BUTTON_COLOR,
         },
         completedActionCloseText: {
             color: tokens.completedUIColor,

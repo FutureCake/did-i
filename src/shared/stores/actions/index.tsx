@@ -10,7 +10,7 @@ interface ActionsStore {
     completedActions: CompletedActionRecord[];
     getAction: (actionId: string) => ActionData | null;
     addCompletedAction: (actionId: string) => void;
-    addAction: (action: ActionData) => void;
+    addAction: (action: ActionData | ActionData[]) => void;
     updateAction: (actionId: string, updatedAction: Partial<ActionData>) => void;
     removeAction: (actionId: string) => void;
 }
@@ -39,7 +39,11 @@ export const useActionsStore = create<ActionsStore>()(
                 }),
             addAction: (action) =>
                 set((state: ActionsStore) => {
-                    state.actions.push(action);
+                    if (Array.isArray(action)) {
+                        state.actions.push(...action);
+                    } else {
+                        state.actions.push(action);
+                    }
                 }),
             removeAction: (actionId: string) =>
                 set((state: ActionsStore) => {
@@ -59,7 +63,7 @@ export const useActionsStore = create<ActionsStore>()(
                 }),
         })),
         {
-            name: 'actions-store',
+            name: 'actions-storee',
             storage: createJSONStorage(() => persistentStorage),
             partialize: (state) => ({
                 actions: state.actions,

@@ -13,6 +13,7 @@ export default function NoActions() {
         <View style={styles.container}>
             <Text style={styles.text}>You have no actions yet.</Text>
             <Text style={styles.text}>Click below to add your first action</Text>
+            <Text style={styles.text}>Or add common actions</Text>
         </View>
     );
 }

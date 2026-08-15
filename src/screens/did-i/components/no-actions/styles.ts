@@ -34,11 +34,12 @@ export function buildNoActionsStyles(tokens: NoActionsTokens) {
             alignItems: "center",
             paddingHorizontal: 36,
             gap: 32,
+            paddingTop: 16
         },
         text: {
             fontFamily: "inter-bold",
             textAlign: "center",
-            fontSize: 32,
+            fontSize: 28,
             color: tokens.color,
         },
     });
